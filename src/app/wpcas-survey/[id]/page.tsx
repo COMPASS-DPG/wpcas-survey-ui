@@ -33,6 +33,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   };
 
   useEffect(() => {
+    // run npm run server to start json-server
     handleFetch(params?.id);
   }, [params?.id]);
 
