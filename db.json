@@ -5,7 +5,6 @@
       "name": "Suhama Hirani",
       "role": "Director of Medical Board",
       "providedFeedback": true,
-      "getFeedback": false,
       "questions": [
         "1Do you think Sushama hirani achieved this level?",
         "1Do you think Sushama hirani achieved this level?",
@@ -20,7 +19,6 @@
       "name": "Ronald Richards",
       "role": "Chief Executive Officer",
       "providedFeedback": true,
-      "getFeedback": true,
       "questions": [
         "1Do you think Sushama hirani achieved this level?",
         "1Do you think Sushama hirani achieved this level?",
@@ -35,7 +33,6 @@
       "name": "Jenny Wilson",
       "role": "Finance",
       "providedFeedback": false,
-      "getFeedback": true,
       "questions": [
         "1Do you think Sushama hirani achieved this level?",
         "1Do you think Sushama hirani achieved this level?",

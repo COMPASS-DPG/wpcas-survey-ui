@@ -3,6 +3,5 @@ export type SurveyType = {
   name: string;
   role: string;
   providedFeedback: boolean;
-  getFeedback: boolean;
   questions: string[];
 };
