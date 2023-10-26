@@ -6,8 +6,6 @@ import React from 'react';
 import { SurveyType } from '@/type/type';
 
 import ProfileImage from '~/images/profile.png';
-import BellIcon from '~/svg/bellIcon.svg';
-import FeedbackPendingIcon from '~/svg/feedbackPendingIcon.svg';
 import FeedbackSuccessIcon from '~/svg/feedbackSuccessIcon.svg';
 
 type PropType = {
@@ -34,7 +32,6 @@ const SurveyCard = ({ data }: PropType) => {
             <p className='text-sm font-normal text-[#65758C]'>{data?.role}</p>
           </div>
         </div>
-        {!data?.getFeedback && <BellIcon className='w-[22px]' />}
       </div>
 
       <div className='flex'>
@@ -54,26 +51,6 @@ const SurveyCard = ({ data }: PropType) => {
           >
             Give Feedback
           </button>
-        )}
-
-        {data?.getFeedback ? (
-          <div className='flex w-[50%] items-center '>
-            <div>
-              <FeedbackSuccessIcon className='mx-[10px]  w-[18px]' />
-            </div>
-            <div className='text-sm font-medium text-[#4ACB5F]'>
-              Provided feedback to you
-            </div>
-          </div>
-        ) : (
-          <div className='flex  w-[50%] items-center '>
-            <div>
-              <FeedbackPendingIcon className='mx-[10px] w-[18px]' />
-            </div>
-            <div className='text-sm text-[#787878]'>
-              Hasn't given feedback to you
-            </div>
-          </div>
         )}
       </div>
     </div>
