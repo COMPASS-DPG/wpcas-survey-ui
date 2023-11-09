@@ -7,6 +7,9 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+import ConnectionCheckWrapper from '@/components/errorScreen/ConnectionCheckWrapper';
+import PullRefresh from '@/components/pullRefresh/PullRefresh';
+
 import { siteConfig } from '@/constant/config';
 
 // !STARTERCONF Change these default meta
@@ -58,19 +61,25 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        {children}
-        <ToastContainer
-          position='top-right'
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme='colored'
-        />
+        <ConnectionCheckWrapper>
+          <PullRefresh>
+            <>
+              {children}
+              <ToastContainer
+                position='top-right'
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme='colored'
+              />
+            </>
+          </PullRefresh>
+        </ConnectionCheckWrapper>
       </body>
     </html>
   );

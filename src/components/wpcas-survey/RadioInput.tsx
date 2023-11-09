@@ -5,9 +5,10 @@ type PropType = {
   checked: boolean;
   name: string;
   value: string;
+  label: string;
 };
 
-const RadioInput = ({ onChange, checked, name, value }: PropType) => {
+const RadioInput = ({ onChange, checked, name, value, label }: PropType) => {
   return (
     <label className='text-base'>
       <input
@@ -18,7 +19,7 @@ const RadioInput = ({ onChange, checked, name, value }: PropType) => {
         checked={checked}
         className='mr-2'
       />
-      {value}
+      {label}
     </label>
   );
 };

@@ -1,13 +1,18 @@
 'use client';
+import { useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { questionType } from '@/app/wpcas-survey/[id]/page';
+import { saveResponse } from '@/services/services';
 
 import CustomModal from './CustomModal';
 import FeedbackSuccess from './FeedbackSuccess';
 import RenderQuestion from './RenderQuestion';
 
 type PropType = {
-  questions: string[];
+  questions: questionType[];
+  assesseeId: string;
   currentGroup: number;
   setCurrentGroup: (arg: number) => void;
   answers: string[];
@@ -15,21 +20,24 @@ type PropType = {
 };
 
 type AnsObjType = {
-  question: string;
   answer: string;
+  questionId: string;
 };
 
 export function SurveyForm({
   questions,
   currentGroup,
+  assesseeId,
   setCurrentGroup,
   answers,
   handleAnswer,
 }: PropType) {
   const [isOpen, setIsOpen] = useState(false);
-
+  const searchParams = useSearchParams();
+  const surveyFormId: string = searchParams.get('surveyFormId') ?? '';
+  const userId: string = searchParams.get('userId') ?? '';
   // Assuming you have 25 questions, so 5 groups of 5 questions each
-  const totalGroups = Math.ceil(questions?.length / 5);
+  const totalGroups = questions && Math.ceil(questions?.length / 5);
 
   const checkFilledAns = (answers: string[]) => {
     // loop will check if user fill answer or not
@@ -42,11 +50,14 @@ export function SurveyForm({
     return true;
   };
 
-  const getAnsObj = (answers: string[], questions: string[]) => {
+  const getAnsObj = (answers: string[], questions: questionType[]) => {
     return questions?.reduce(
-      (acc: AnsObjType[], question: string, index: number) => {
-        acc.push({ question, answer: answers[index] });
-        return acc;
+      (result: AnsObjType[], question: questionType, index: number) => {
+        result.push({
+          questionId: question.questionId,
+          answer: answers[index],
+        });
+        return result;
       },
       []
     );
@@ -61,16 +72,34 @@ export function SurveyForm({
   };
 
   // will handle survey submit and next page
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentGroup < totalGroups) {
       setCurrentGroup(currentGroup + 1);
     } else {
       // will check all answers are filled or not
       if (checkFilledAns(answers)) {
         const answerObj = getAnsObj(answers, questions);
-        setIsOpen(true);
 
-        return answerObj;
+        //request object
+        const res = {
+          surveyFormId: parseInt(surveyFormId),
+          assesseeId,
+          assessorId: userId,
+          responseJson: answerObj,
+        };
+
+        // console.log(res, 'res')
+        try {
+          const response = await saveResponse(res);
+          setIsOpen(true);
+          return response;
+        } catch (error) {
+          toast.error('something went wrong try after some time');
+        }
+
+        // console.log(assesseeId, userId)
+        // console.log(surveyFormId)
+        // console.log(answerObj);
       }
     }
   };
