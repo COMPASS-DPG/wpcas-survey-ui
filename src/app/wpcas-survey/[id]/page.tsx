@@ -17,7 +17,8 @@ export type questionType = {
 const Page = ({ params }: { params: { id: string } }) => {
   const [currentGroup, setCurrentGroup] = useState(1);
   const [surveyConfig, setSurveyConfig] = useState<SurveyFormType>();
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   // array of empty answers for questions
   const [answers, setAnswers] = useState<string[]>([]);
 
@@ -33,12 +34,16 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       try {
         const survey = await getSurveyConfigQuestionById(params?.id);
         setSurveyConfig(survey);
+        setLoading(false);
         // array of empty answers for no of questions
         setAnswers(Array(survey.questionsJson.length).fill(''));
       } catch (error) {
+        setLoading(false);
+        setError(true);
         toast.error('something went wrong');
       }
     })();
@@ -47,17 +52,22 @@ const Page = ({ params }: { params: { id: string } }) => {
   return (
     <>
       <Navbar heading='Feedback Survey' />
-      <div>
-        {currentGroup === 1 && <SurveyProfile name={name} role={role} />}
-        <SurveyForm
-          assesseeId={assesseeId}
-          questions={questions}
-          currentGroup={currentGroup}
-          setCurrentGroup={(value: number) => handleCurrentGroup(value)}
-          answers={answers}
-          handleAnswer={(value: string[]) => setAnswers(value)}
-        />
-      </div>
+      {loading && <div className='mt-[50px] text-center'>Loading...</div>}
+      {error && <div className='mt-[50px] text-center'>error...</div>}
+
+      {!loading && !error && (
+        <div>
+          {currentGroup === 1 && <SurveyProfile name={name} role={role} />}
+          <SurveyForm
+            assesseeId={assesseeId}
+            questions={questions}
+            currentGroup={currentGroup}
+            setCurrentGroup={(value: number) => handleCurrentGroup(value)}
+            answers={answers}
+            handleAnswer={(value: string[]) => setAnswers(value)}
+          />
+        </div>
+      )}
     </>
   );
 };
