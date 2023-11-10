@@ -3,41 +3,36 @@ import { toast } from 'react-toastify';
 
 import { SurveyResponseType } from '@/type/type';
 
-export const getUsers = async () => {
+export const getUsers = async (assesseeId: string, formId: string) => {
   const data = await axios.get(
-    'http://localhost:3000/api/response-tracker/assessee/abaa7220-5d2e-4e05-842a-95b2c4ce1876/2'
+    `http://localhost:3000/api/response-tracker/assessee/${assesseeId}/${formId}`
   );
   if (data.status === 200) {
-    return data.data;
+    return data.data.data;
   } else {
-    toast.error('something went wrong');
+    toast.error(data.data.message, { draggable: false });
   }
 };
 
-export const saveResponse = async (data: SurveyResponseType) => {
-  const res = await axios.post(
+export const saveResponse = async (payload: SurveyResponseType) => {
+  const data = await axios.post(
     'http://localhost:3000/api/response-tracker',
-    data
+    payload
   );
-  // console.log('resonse',res)
-  if (res.status === 200) {
-    return res.data;
+  if (data.status === 200) {
+    return data.data.data;
   } else {
-    toast.error('something went wrong');
+    toast.error(data.data.message, { draggable: false });
   }
 };
 
 export const getSurveyConfigQuestionById = async (id: string) => {
-  try {
-    const data = await axios(
-      `http://localhost:3000/api/survey-form/latest-survey-form/${id}`
-    );
-    if (data.status === 200) {
-      return data.data.data;
-    } else {
-      toast.error('something went wrong');
-    }
-  } catch (error) {
-    toast.error('something went wrong');
+  const data = await axios(
+    `http://localhost:3000/api/survey-form/latest-survey-form/${id}`
+  );
+  if (data.status === 200) {
+    return data.data.data;
+  } else {
+    toast.error(data?.data?.message, { draggable: false });
   }
 };

@@ -10,13 +10,13 @@ import FeedbackSuccessIcon from '~/svg/feedbackSuccessIcon.svg';
 
 type PropType = {
   data: SurveyType;
+  surveyForm: {
+    surveyFormId: string;
+    userId: string;
+  };
 };
 
-const SurveyCard = ({ data }: PropType) => {
-  const surveyForm: { surveyFormId: number; userId: string } = {
-    surveyFormId: 2,
-    userId: 'abaa7220-5d2e-4e05-842a-95b2c4ce1876',
-  };
+const SurveyCard = ({ data, surveyForm }: PropType) => {
   const date: string = new Date(
     data?.surveyForm?.surveyCycleParameter.endTime
   ).toLocaleDateString('en-GB');
