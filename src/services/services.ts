@@ -15,7 +15,7 @@ export const getUsers = async (assesseeId: string, formId: string) => {
 };
 
 export const saveResponse = async (payload: SurveyResponseType) => {
-  const data = await axios.post(
+  const data = await axios.patch(
     'http://localhost:3000/api/response-tracker',
     payload
   );
