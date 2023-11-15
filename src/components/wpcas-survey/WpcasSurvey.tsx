@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import { outfit } from '@/components/FontFamily';
@@ -8,42 +9,38 @@ import SurveyCard from '@/components/wpcas-survey/SurveyCard';
 import { getUsers } from '@/services/services';
 import { SurveyType } from '@/type/type';
 
+const userId: string = localStorage?.getItem('userId') || '';
+
 const WpcasSurvey = () => {
-  const surveyForm: { surveyFormId: string; userId: string } = {
-    surveyFormId: '2',
-    userId: 'abaa7220-5d2e-4e05-842a-95b2c4ce1876',
-  };
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
+  const router = useRouter();
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        const data = await getUsers(surveyForm.userId, surveyForm.surveyFormId);
+        const data = await getUsers(userId);
         setData(data);
         setLoading(false);
       } catch (error) {
-        setLoading(false);
-        setError(true);
+        // Handle any errors that occur during the API call
+        // eslint-disable-next-line no-console
+        console.log('Api call error', error);
+        router.push('/error/DataNotFound');
       }
     })();
-  }, [surveyForm.surveyFormId, surveyForm.userId]);
+  }, [router]);
 
   return (
     <div className={`mx-[22px] ${outfit.className}`}>
       <div className='my-[28px] text-xl font-semibold'>WPCAS-Survey</div>
       <div>
         {loading && <div className='mt-[30px] text-center'>Loading...</div>}
-        {error && (
-          <div className='mt-[30px] text-center'>Something went wrong...</div>
-        )}
-        {data?.map((survey: SurveyType) => {
-          return (
-            <SurveyCard key={survey.id} data={survey} surveyForm={surveyForm} />
-          );
-        })}
+        {!loading &&
+          data?.map((survey: SurveyType) => {
+            return <SurveyCard key={survey.id} data={survey} />;
+          })}
       </div>
     </div>
   );

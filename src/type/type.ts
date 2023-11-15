@@ -1,6 +1,7 @@
-type AssessorType = {
+type AssesseeType = {
   designation: string;
   userName: string;
+  profilePicture: string;
 };
 
 export type SurveyType = {
@@ -9,9 +10,9 @@ export type SurveyType = {
   assesseeId: string;
   assessorId: string;
   status: 'PENDING' | 'COMPLETED';
-  Assessor: AssessorType;
+  Assessee: AssesseeType;
   surveyForm: {
-    surveyCycleParameter: {
+    SurveyConfig: {
       endTime: Date;
     };
   };
@@ -23,6 +24,7 @@ export type SurveyFormType = {
     designation: string;
     userName: string;
     userId: string;
+    profilePicture: string;
   };
   questionsJson: {
     questionId: string;

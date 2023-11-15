@@ -34,8 +34,9 @@ export function SurveyForm({
 }: PropType) {
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
-  const surveyFormId: string = searchParams.get('surveyFormId') ?? '';
+  const surveyFormId: string = searchParams.get('formId') ?? '';
   const userId: string = searchParams.get('userId') ?? '';
+
   // Assuming you have 25 questions, so 5 groups of 5 questions each
   const totalGroups = questions && Math.ceil(questions?.length / 5);
 
@@ -87,19 +88,16 @@ export function SurveyForm({
           assessorId: userId,
           responseJson: answerObj,
         };
-
-        // console.log(res, 'res')
         try {
           const response = await saveResponse(res);
           setIsOpen(true);
           return response;
         } catch (error) {
+          // Handle any errors that occur during the API call
+          // eslint-disable-next-line no-console
+          console.log('Api call error', error);
           toast.error('something went wrong try after some time');
         }
-
-        // console.log(assesseeId, userId)
-        // console.log(surveyFormId)
-        // console.log(answerObj);
       }
     }
   };

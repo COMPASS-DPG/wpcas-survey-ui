@@ -10,15 +10,11 @@ import FeedbackSuccessIcon from '~/svg/feedbackSuccessIcon.svg';
 
 type PropType = {
   data: SurveyType;
-  surveyForm: {
-    surveyFormId: string;
-    userId: string;
-  };
 };
 
-const SurveyCard = ({ data, surveyForm }: PropType) => {
+const SurveyCard = ({ data }: PropType) => {
   const date: string = new Date(
-    data?.surveyForm?.surveyCycleParameter.endTime
+    data?.surveyForm?.SurveyConfig?.endTime
   ).toLocaleDateString('en-GB');
 
   return (
@@ -30,7 +26,7 @@ const SurveyCard = ({ data, surveyForm }: PropType) => {
         <div className='mb-6 flex gap-2'>
           <div>
             <Image
-              src={ProfileImage}
+              src={data?.Assessee?.profilePicture ?? ProfileImage}
               alt='profile image'
               width={44}
               height={44}
@@ -38,10 +34,10 @@ const SurveyCard = ({ data, surveyForm }: PropType) => {
           </div>
           <div>
             <p className='text-base font-medium text-[#272728]'>
-              {data?.Assessor?.userName}
+              {data?.Assessee?.userName}
             </p>
             <p className='text-sm font-normal text-[#65758C]'>
-              {data?.Assessor?.designation}
+              {data?.Assessee?.designation}
             </p>
           </div>
         </div>
@@ -53,8 +49,8 @@ const SurveyCard = ({ data, surveyForm }: PropType) => {
             className='h-9 w-[50%] rounded bg-[#385B8B] px-2 py-2 text-center text-sm
              font-semibold text-[#FFF]'
             href={{
-              pathname: `/wpcas-survey/${data?.assessorId}`,
-              query: surveyForm,
+              pathname: `/wpcas-survey/${data?.assesseeId}`,
+              query: { userId: data?.assessorId, formId: data?.surveyFormId },
             }}
           >
             Give Feedback
