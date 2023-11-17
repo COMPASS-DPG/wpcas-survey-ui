@@ -5,7 +5,7 @@ import React from 'react';
 
 import { SurveyType } from '@/type/type';
 
-import ProfileImage from '~/images/profile.png';
+import ProfileImage from '~/images/profile.jpg';
 import FeedbackSuccessIcon from '~/svg/feedbackSuccessIcon.svg';
 
 type PropType = {

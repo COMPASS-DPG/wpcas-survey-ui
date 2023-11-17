@@ -3,7 +3,7 @@ import React from 'react';
 
 import { outfit } from '@/components/FontFamily';
 
-import ProfileImage from '~/images/profile.png';
+import ProfileImage from '~/images/profile.jpg';
 
 type PropType = {
   name: string;
