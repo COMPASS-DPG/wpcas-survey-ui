@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import Navbar from '@/components/navbar/Navbar';
+import Spinner from '@/components/wpcas-survey/Spinner';
 import { SurveyForm } from '@/components/wpcas-survey/SurveyForm';
 import SurveyProfile from '@/components/wpcas-survey/SurveyProfile';
 
@@ -17,7 +18,7 @@ export type questionType = {
 const Page = ({ params }: { params: { id: string } }) => {
   const [currentGroup, setCurrentGroup] = useState(1);
   const [surveyConfig, setSurveyConfig] = useState<SurveyFormType>();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   // array of empty answers for questions
@@ -37,7 +38,6 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
       try {
         const survey = await getSurveyConfigQuestionById(params?.id);
         setSurveyConfig(survey);
@@ -58,7 +58,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   return (
     <>
       <Navbar heading='Feedback Survey' />
-      {loading && <div className='mt-[50px] text-center'>Loading...</div>}
+      {loading && <Spinner />}
       {error && <div className='mt-[50px] text-center'>error...</div>}
 
       {!loading && !error && (

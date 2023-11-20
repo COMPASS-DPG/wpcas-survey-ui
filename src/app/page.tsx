@@ -1,7 +1,11 @@
+'use client';
 import Head from 'next/head';
+import { useRouter } from 'next/navigation';
 import * as React from 'react';
 
-import WpcasSurvey from '@/components/wpcas-survey/WpcasSurvey';
+import LoadingScreen from '@/components/wpcas-survey/LoadingScreen';
+
+import { getUsers } from '@/services/services';
 
 /**
  * SVGR Support
@@ -16,13 +20,31 @@ import WpcasSurvey from '@/components/wpcas-survey/WpcasSurvey';
 // to customize the default configuration.
 
 export default function HomePage() {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    const userId: string = localStorage?.getItem('userId') || '';
+    (async () => {
+      try {
+        const data = await getUsers(userId);
+        localStorage.setItem('userData', JSON.stringify(data));
+        router.push('/wpcas-survey');
+      } catch (error) {
+        // Handle any errors that occur during the API call
+        // eslint-disable-next-line no-console
+        console.log('Api call error', error);
+        router.push('/error/DataNotFound');
+      }
+    })();
+  }, [router]);
+
   return (
     <main>
       <Head>
         <title>WPCAS-Survey</title>
       </Head>
       <section className='bg-white'>
-        <WpcasSurvey />
+        <LoadingScreen />
       </section>
     </main>
   );
