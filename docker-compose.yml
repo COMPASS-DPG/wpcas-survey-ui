@@ -7,3 +7,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    environment:
+      - WPCAS_SERVICE_BACKEND_IP=http://localhost:4010
