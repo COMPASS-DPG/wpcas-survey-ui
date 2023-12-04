@@ -2,8 +2,7 @@ import axios from 'axios';
 
 import { SurveyResponseType } from '@/type/type';
 
-const backendUrl =
-  process.env.WPCAS_SERVICE_BACKEND_IP || 'http://localhost:4010';
+const backendUrl = 'http://3cp.compass.samagra.io';
 export const getUsers = async (assesseeId: string) => {
   const data = await axios.get(
     `${backendUrl}/api/response-tracker/assessor/${assesseeId}`
