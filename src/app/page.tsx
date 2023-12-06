@@ -31,9 +31,11 @@ export default function HomePage() {
         router.push('/wpcas-survey');
       } catch (error) {
         // Handle any errors that occur during the API call
-        // eslint-disable-next-line no-console
-        console.log('Api call error', error);
-        router.push('/error/DataNotFound');
+        setTimeout(() => {
+          // eslint-disable-next-line no-console
+          console.log('Api call error', error);
+          router.push('/error/DataNotFound');
+        }, 5000);
       }
     })();
   }, [router]);

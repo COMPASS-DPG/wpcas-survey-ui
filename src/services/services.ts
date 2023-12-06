@@ -11,7 +11,7 @@ export const getUsers = async (assesseeId: string) => {
 };
 
 export const saveResponse = async (payload: SurveyResponseType) => {
-  const data = await axios.patch('${backendUrl}/api/response-tracker', payload);
+  const data = await axios.patch(`${backendUrl}/api/response-tracker`, payload);
   return data.data.data;
 };
 
