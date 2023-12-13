@@ -36,10 +36,10 @@ export default function HomePage() {
         localStorage.setItem('userData', JSON.stringify(data));
         router.push('/wpcas-survey');
       } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log('Api call error', error);
         // Handle any errors that occur during the API call
         setTimeout(() => {
-          // eslint-disable-next-line no-console
-          console.log('Api call error', error);
           router.push('/error/DataNotFound');
         }, 5000);
       }

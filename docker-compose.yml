@@ -6,6 +6,10 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    environment:
-      - WPCAS_SERVICE_BACKEND_IP=http://localhost:4010
+      - 3300:3000
+    networks:
+      - samagra_compass
+
+networks:
+  samagra_compass:
+    external: true
