@@ -1,9 +1,14 @@
 import { Metadata } from 'next';
 import * as React from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
+import 'react-toastify/dist/ReactToastify.css';
+
+import ConnectionCheckWrapper from '@/components/errorScreen/ConnectionCheckWrapper';
+import PullRefresh from '@/components/pullRefresh/PullRefresh';
 
 import { siteConfig } from '@/constant/config';
 
@@ -55,7 +60,27 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <body>{children}</body>
+      <body>
+        <ConnectionCheckWrapper>
+          <PullRefresh>
+            <>
+              {children}
+              <ToastContainer
+                position='top-right'
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme='colored'
+              />
+            </>
+          </PullRefresh>
+        </ConnectionCheckWrapper>
+      </body>
     </html>
   );
 }
