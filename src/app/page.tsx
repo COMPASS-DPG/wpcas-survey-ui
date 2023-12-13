@@ -1,6 +1,6 @@
 'use client';
 import Head from 'next/head';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
 
 import LoadingScreen from '@/components/wpcas-survey/LoadingScreen';
@@ -21,9 +21,15 @@ import { getUsers } from '@/services/services';
 
 export default function HomePage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   React.useEffect(() => {
-    const userId: string = localStorage?.getItem('userId') || '';
+    let userId: string = localStorage?.getItem('userId') || '';
+    const queryId = searchParams.get('userId') || '';
+    if (queryId.trim() !== '') {
+      userId = queryId;
+      localStorage.setItem('userId', queryId);
+    }
     (async () => {
       try {
         const data = await getUsers(userId);
@@ -38,7 +44,7 @@ export default function HomePage() {
         }, 5000);
       }
     })();
-  }, [router]);
+  }, [router, searchParams]);
 
   return (
     <main>
